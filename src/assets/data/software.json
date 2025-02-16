@@ -1,0 +1,153 @@
+{
+  "defaultSoftware": [
+    {
+      "id": "intellij",
+      "name": "IntelliJ IDEA",
+      "category": "IDEs",
+      "daasType": "linux-se",
+      "personas": ["java-dev", "frontend-dev"]
+    },
+    {
+      "id": "vscode",
+      "name": "Visual Studio Code",
+      "category": "IDEs",
+      "daasType": "linux-se",
+      "personas": ["java-dev", "frontend-dev", "devops-engineer", "data-scientist", "cloud-engineer", "security-engineer"]
+    },
+    {
+      "id": "podman",
+      "name": "Container Development - Podman Desktop",
+      "category": "Development Tools",
+      "daasType": "linux-se",
+      "personas": ["java-dev", "dotnet-dev", "devops-engineer"]
+    },
+    {
+      "id": "git",
+      "name": "Git",
+      "category": "Development Tools",
+      "daasType": "linux-se",
+      "personas": ["java-dev", "dotnet-dev", "frontend-dev", "devops-engineer", "data-scientist", "cloud-engineer", "security-engineer"]
+    },
+    {
+      "id": "node",
+      "name": "Node.js",
+      "category": "Development Tools",
+      "daasType": "linux-se",
+      "personas": ["frontend-dev"]
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "category": "Development Tools",
+      "daasType": "linux-se",
+      "personas": ["data-scientist", "devops-engineer", "cloud-engineer", "security-engineer"]
+    },
+    {
+      "id": "jupyter",
+      "name": "Jupyter Notebook",
+      "category": "Data Science Tools",
+      "daasType": "linux-se",
+      "personas": ["data-scientist"]
+    },
+    {
+      "id": "rstudio",
+      "name": "RStudio",
+      "category": "Data Science Tools",
+      "daasType": "linux-se",
+      "personas": ["data-scientist"]
+    }
+  ],
+  "optionalSoftware": [
+    {
+      "id": "visual-studio",
+      "name": "Visual Studio",
+      "category": "IDEs",
+      "daasType": "windows-vde",
+      "personas": ["dotnet-dev"]
+    },
+    {
+      "id": "visual-studio-enterprise",
+      "name": "Visual Studio Enterprise",
+      "category": "IDEs",
+      "daasType": "windows-vde",
+      "personas": ["java-dev", "dotnet-dev"]
+    },
+    {
+      "id": "informatica",
+      "name": "Informatica PowerCenter",
+      "category": "ETL Tools",
+      "daasType": "windows-vde",
+      "personas": ["data-scientist"]
+    },
+    {
+      "id": "tosca",
+      "name": "Tricentis Tosca",
+      "category": "Testing Tools",
+      "daasType": "windows-365",
+      "personas": ["java-dev", "dotnet-dev"]
+    },
+    {
+      "id": "ssis",
+      "name": "SQL Server Integration Services",
+      "category": "ETL Tools",
+      "daasType": "windows-vde",
+      "personas": ["data-scientist", "dotnet-dev"]
+    },
+    {
+      "id": "ssms",
+      "name": "SQL Server Management Studio",
+      "category": "Database Tools",
+      "daasType": "windows-vde",
+      "personas": ["java-dev", "dotnet-dev", "data-scientist"]
+    },
+    {
+      "id": "powerbi-desktop",
+      "name": "Power BI Desktop",
+      "category": "Business Intelligence",
+      "daasType": "windows-365",
+      "personas": ["data-scientist"]
+    },
+    {
+      "id": "azure-data-studio",
+      "name": "Azure Data Studio",
+      "category": "Database Tools",
+      "daasType": "windows-vde",
+      "personas": ["data-scientist", "cloud-engineer"]
+    },
+    {
+      "id": "sharepoint-designer",
+      "name": "SharePoint Designer",
+      "category": "Development Tools",
+      "daasType": "windows-365",
+      "personas": ["frontend-dev"]
+    },
+    {
+      "id": "azure-tools",
+      "name": "Azure Development Tools",
+      "category": "Cloud Tools",
+      "daasType": "windows-vde",
+      "personas": ["cloud-engineer"]
+    },
+    {
+      "id": "mainframe-tools",
+      "name": "IBM Mainframe Development Tools",
+      "category": "Mainframe Tools",
+      "daasType": "windows-vde",
+      "personas": ["mainframe-engineer"]
+    },
+    {
+      "id": "teams",
+      "name": "Microsoft Teams",
+      "category": "Collaboration",
+      "daasType": "windows-365",
+      "personas": ["non-dev"]
+    },
+    {
+      "id": "excel-legacy",
+      "name": "Excel Desktop- Using Macros, Spreadsheets greater that 100MB",
+      "category": "Collaboration",
+      "daasType": "windows-365",
+      "personas": ["non-dev", "tester-dev"]
+    }
+  ]
+} 

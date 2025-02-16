@@ -1,0 +1,63 @@
+[
+  {
+    "id": "java-dev",
+    "name": "Java Developer",
+    "image": "java-dev.png",
+    "description": "Enterprise Java developer working on Java, Java Spring Boot applications and microservices"
+  },
+  {
+    "id": "dotnet-dev",
+    "name": ".NET Developer",
+    "image": "dotnet-dev.png",
+    "description": "Full-stack .NET developer building enterprise applications with C# and ASP.NET Core"
+  },
+  {
+    "id": "frontend-dev",
+    "name": "Single Page Application Developer",
+    "image": "frontend-dev.png",
+    "description": "Web developer specializing in modern JavaScript frameworks like React and Angular"
+  },
+  {
+    "id": "data-scientist",
+    "name": "Data Scientist",
+    "image": "data-scientist.png",
+    "description": "Data professional working with Python, R, and machine learning frameworks"
+  },
+  {
+    "id": "devops-engineer",
+    "name": "DevOps Engineer",
+    "image": "devops-engineer.png",
+    "description": "Infrastructure specialist managing cloud resources and CI/CD pipelines"
+  },
+  {
+    "id": "mainframe-engineer",
+    "name": "Mainframe Engineer",
+    "image": "mainframe-engineer.png",
+    "description": "Mainframe professional working with COBOL, JCL, and other Mainframe languages"
+  },
+  {
+    "id": "cloud-engineer",
+    "name": "Cloud Engineer",
+    "image": "cloud-engineer.png",
+    "description": "Cloud professional working with AWS, Azure, Google Cloud, and other cloud platforms"
+  },
+  {
+    "id": "security-engineer",
+    "name": "Security Engineer",
+    "image": "security-engineer.png",
+    "description": "Security professional working with AWS, Azure, Google Cloud, and other cloud platforms"
+  },
+  {
+    "id": "non-dev",
+    "name": "Non-Developer",
+    "image": "non-dev.png",
+    "description": "Non-developer working with Microsoft 365 and other Microsoft products"
+  },
+  {
+    "id": "tester-dev",
+    "name": "Test Engineer",
+    "image": "tester-dev.png",
+    "description": "Test engineer working with selenium, playwright, and other testing frameworks"
+  }
+
+] 
