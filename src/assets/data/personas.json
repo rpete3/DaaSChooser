@@ -39,7 +39,7 @@
     "name": "Mainframe Engineer",
     "image": "mainframe-engineer.png",
     "description": "Mainframe professional working with COBOL, JCL, and other Mainframe languages",
-    "defaultDaas": "windows-vde"
+    "defaultDaas": "linux-se"
   },
   {
     "id": "cloud-engineer",

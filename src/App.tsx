@@ -142,22 +142,22 @@ const App: React.FC = () => {
       ...software.optionalSoftware.filter(s => softwareState.optionalSoftware.has(s.id))
     ];
     
-    // Check for persona-based defaults first
-    const personaDefaults = currentPersonas.map(p => p.defaultDaas);
-    if (personaDefaults.includes('windows-vde')) {
-      setRecommendedDaas('Windows VDE');
-    } else if (personaDefaults.includes('windows-365')) {
-      setRecommendedDaas('Windows 365 Cloud Desktop');
-    } else if (personaDefaults.includes('linux-se')) {
-      setRecommendedDaas('Linux Software Engineering Environment');
-    }
-    // Then check software selections if no persona defaults to Windows
-    else if (selectedItems.some(s => s.daasType === 'windows-vde')) {
+    // Check software selections first - they take priority
+    if (selectedItems.some(s => s.daasType === 'windows-vde')) {
       setRecommendedDaas('Windows VDE');
     } else if (selectedItems.some(s => s.daasType === 'windows-365')) {
       setRecommendedDaas('Windows 365 Cloud Desktop');
-    } else {
-      setRecommendedDaas('Linux Software Engineering Environment');
+    } 
+    // If no Windows software is selected, check persona defaults
+    else {
+      const personaDefaults = currentPersonas.map(p => p.defaultDaas);
+      if (personaDefaults.includes('windows-vde')) {
+        setRecommendedDaas('Windows VDE');
+      } else if (personaDefaults.includes('windows-365')) {
+        setRecommendedDaas('Windows 365 Cloud Desktop');
+      } else {
+        setRecommendedDaas('Linux Software Engineering Environment');
+      }
     }
   }, [softwareState, software, currentPersonas]);
 
