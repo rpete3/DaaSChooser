@@ -19,6 +19,7 @@ interface Persona {
   name: string;
   image: string;
   description: string;
+  defaultDaas: 'linux-se' | 'windows-vde' | 'windows-365';
 }
 
 interface Software {
@@ -141,15 +142,22 @@ const App: React.FC = () => {
       ...software.optionalSoftware.filter(s => softwareState.optionalSoftware.has(s.id))
     ];
     
-    // Prioritize Windows VDE over Windows 365
-    if (selectedItems.some(s => s.daasType === 'windows-vde')) {
+    // Check for persona-based defaults first
+    const personaDefaults = currentPersonas.map(p => p.defaultDaas);
+    if (personaDefaults.includes('windows-vde')) {
+      setRecommendedDaas('Windows VDE');
+    } else if (personaDefaults.includes('windows-365')) {
+      setRecommendedDaas('Windows 365 Cloud Desktop');
+    }
+    // Then check software selections if no persona defaults to Windows
+    else if (selectedItems.some(s => s.daasType === 'windows-vde')) {
       setRecommendedDaas('Windows VDE');
     } else if (selectedItems.some(s => s.daasType === 'windows-365')) {
       setRecommendedDaas('Windows 365 Cloud Desktop');
     } else {
       setRecommendedDaas('Linux Software Engineering Environment');
     }
-  }, [softwareState, software]);
+  }, [softwareState, software, currentPersonas]);
 
   const relevantSoftware = React.useMemo(() => {
     if (currentPersonas.length === 0) return [];
@@ -175,7 +183,7 @@ const App: React.FC = () => {
         control={
           <Checkbox
             checked={isDefaultSoftware 
-              ? softwareState.defaultSoftware.has(software.id)
+              ? true  // Always show checked for default software
               : softwareState.optionalSoftware.has(software.id)
             }
             onChange={() => handleSoftwareChange(software.id)}
@@ -184,7 +192,13 @@ const App: React.FC = () => {
         }
         label={
           <Box>
-            <Typography>{software.name}</Typography>
+            <Typography 
+              sx={{ 
+                color: isDefaultSoftware ? 'text.secondary' : 'text.primary'
+              }}
+            >
+              {software.name}
+            </Typography>
             {!isDefaultSoftware && (
               <Typography variant="caption" color="text.secondary" display="block">
                 Selecting this will change environment to {software.daasType === 'windows-365' ? 'Windows 365' : 'Windows VDE'}

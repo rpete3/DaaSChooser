@@ -3,61 +3,70 @@
     "id": "java-dev",
     "name": "Java Developer",
     "image": "java-dev.png",
-    "description": "Enterprise Java developer working on Java, Java Spring Boot applications and microservices"
+    "description": "Enterprise Java developer working on Java, Java Spring Boot applications and microservices",
+    "defaultDaas": "linux-se"
   },
   {
     "id": "dotnet-dev",
     "name": ".NET Developer",
     "image": "dotnet-dev.png",
-    "description": "Full-stack .NET developer building enterprise applications with C# and ASP.NET Core"
+    "description": "Full-stack .NET developer building enterprise applications with C# and ASP.NET Core",
+    "defaultDaas": "linux-se"
   },
   {
     "id": "frontend-dev",
     "name": "Single Page Application Developer",
     "image": "frontend-dev.png",
-    "description": "Web developer specializing in modern JavaScript frameworks like React and Angular"
+    "description": "Web developer specializing in modern JavaScript frameworks like React and Angular",
+    "defaultDaas": "linux-se"
   },
   {
     "id": "data-scientist",
     "name": "Data Scientist",
     "image": "data-scientist.png",
-    "description": "Data professional working with Python, R, and machine learning frameworks"
+    "description": "Data professional working with Python, R, and machine learning frameworks",
+    "defaultDaas": "linux-se"
   },
   {
     "id": "devops-engineer",
     "name": "DevOps Engineer",
     "image": "devops-engineer.png",
-    "description": "Infrastructure specialist managing cloud resources and CI/CD pipelines"
+    "description": "Infrastructure specialist managing cloud resources and CI/CD pipelines",
+    "defaultDaas": "linux-se"
   },
   {
     "id": "mainframe-engineer",
     "name": "Mainframe Engineer",
     "image": "mainframe-engineer.png",
-    "description": "Mainframe professional working with COBOL, JCL, and other Mainframe languages"
+    "description": "Mainframe professional working with COBOL, JCL, and other Mainframe languages",
+    "defaultDaas": "windows-vde"
   },
   {
     "id": "cloud-engineer",
     "name": "Cloud Engineer",
     "image": "cloud-engineer.png",
-    "description": "Cloud professional working with AWS, Azure, Google Cloud, and other cloud platforms"
+    "description": "Cloud professional working with AWS, Azure, Google Cloud, and other cloud platforms",
+    "defaultDaas": "linux-se"
   },
   {
     "id": "security-engineer",
     "name": "Security Engineer",
     "image": "security-engineer.png",
-    "description": "Security professional working with AWS, Azure, Google Cloud, and other cloud platforms"
+    "description": "Security professional working with AWS, Azure, Google Cloud, and other cloud platforms",
+    "defaultDaas": "linux-se"
   },
   {
     "id": "non-dev",
     "name": "Non-Developer",
     "image": "non-dev.png",
-    "description": "Non-developer working with Microsoft 365 and other Microsoft products"
+    "description": "Non-developer working with Microsoft 365 and other Microsoft products",
+    "defaultDaas": "windows-365"
   },
   {
     "id": "tester-dev",
     "name": "Test Engineer",
     "image": "tester-dev.png",
-    "description": "Test engineer working with selenium, playwright, and other testing frameworks"
+    "description": "Test engineer working with selenium, playwright, and other testing frameworks",
+    "defaultDaas": "linux-se"
   }
-
 ] 
