@@ -19,7 +19,7 @@ interface Persona {
   name: string;
   image: string;
   description: string;
-  defaultDaas: 'linux-se' | 'windows-vde' | 'windows-365';
+  defaultDaas: string;
 }
 
 interface Software {
@@ -148,6 +148,8 @@ const App: React.FC = () => {
       setRecommendedDaas('Windows VDE');
     } else if (personaDefaults.includes('windows-365')) {
       setRecommendedDaas('Windows 365 Cloud Desktop');
+    } else if (personaDefaults.includes('linux-se')) {
+      setRecommendedDaas('Linux Software Engineering Environment');
     }
     // Then check software selections if no persona defaults to Windows
     else if (selectedItems.some(s => s.daasType === 'windows-vde')) {
@@ -377,7 +379,7 @@ const App: React.FC = () => {
                         {relevantSoftware
                           .filter(s => s.category === category)
                           .map(renderSoftwareItem)}
-                      </div>
+      </div>
                     </CardContent>
                   </Card>
                 </Grid>
