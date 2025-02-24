@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, Container, Toolbar, Typography, Card, CardContent, CardHeader, Grid, Checkbox, FormControlLabel, ThemeProvider, createTheme, Button, Box, Divider, Paper } from '@mui/material';
+import { AppBar, Container, Toolbar, Typography, Card, CardContent, CardHeader, Grid, Checkbox, FormControlLabel, ThemeProvider, createTheme, Button, Box, Divider, Paper, CssBaseline } from '@mui/material';
 import { Refresh } from '@mui/icons-material';
 import personasData from './assets/data/personas.json';
 import softwareData from './assets/data/software.json';
@@ -12,7 +12,18 @@ const daasColors = {
   w365: '#4caf50',     // green
 };
 
-const theme = createTheme();
+const theme = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          margin: 0,
+          padding: 0
+        }
+      }
+    }
+  }
+});
 
 interface Persona {
   id: string;
@@ -81,15 +92,17 @@ const App: React.FC = () => {
   });
   const [recommendedDaas, setRecommendedDaas] = React.useState('Linux Software Engineering Environment');
 
+  type DaasType = 'Linux Software Engineering Environment' | 'Windows VDE' | 'Windows 365 Cloud Desktop';
+
   // Add provisioning URLs for each DaaS type
-  const provisioningUrls = {
+  const provisioningUrls: Record<DaasType, string> = {
     'Linux Software Engineering Environment': 'https://provision.linux-se.example.com',
     'Windows VDE': 'https://provision.windows-vde.example.com',
     'Windows 365 Cloud Desktop': 'https://provision.windows-365.example.com'
   };
 
   // Add function to handle provision button click
-  const handleProvision = (daasType: string) => {
+  const handleProvision = (daasType: DaasType) => {
     window.open(provisioningUrls[daasType], '_blank');
   };
 
@@ -226,195 +239,198 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>DaaS Chooser</Typography>
-          <Button
-            variant="outlined"
-            startIcon={<Refresh />}
-            onClick={handleReset}
-            sx={{ color: 'white', borderColor: 'white' }}
-          >
-            Reset Choices
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <CssBaseline />
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>DaaS Chooser</Typography>
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              onClick={handleReset}
+              sx={{ color: 'white', borderColor: 'white' }}
+            >
+              Reset Choices
+            </Button>
+          </Toolbar>
+        </AppBar>
 
-      <Container>
-        {/* Recommendation at the top */}
-        <Card 
-          sx={{ 
-            margin: '2rem 0',
-            backgroundColor: selectedPersonas.size > 0
-              ? alpha(getDaasColor(recommendedDaas), 0.1)
-              : 'background.paper'
-          }}
-        >
-          <CardContent>
-            <Box>
-              {selectedPersonas.size > 0 ? (
-                <>
-                  <Typography variant="h5" gutterBottom>
-                    Based on your answers, the best choice for you is:
-                  </Typography>
-                  <Typography 
-                    variant="h4" 
-                    sx={{ 
-                      color: getDaasColor(recommendedDaas),
-                      marginTop: 1,
-                      marginBottom: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 2
-                    }}
-                  >
-                    {recommendedDaas}
-                    <Button
-                      variant="contained"
-                      onClick={() => handleProvision(recommendedDaas)}
-                      sx={{
-                        backgroundColor: getDaasColor(recommendedDaas),
-                        '&:hover': {
-                          backgroundColor: alpha(getDaasColor(recommendedDaas), 0.8)
-                        }
+        <Container>
+          {/* Recommendation at the top */}
+          <Card 
+            sx={{ 
+              margin: '2rem 0',
+              backgroundColor: selectedPersonas.size > 0
+                ? alpha(getDaasColor(recommendedDaas), 0.1)
+                : 'background.paper'
+            }}
+          >
+            <CardContent>
+              <Box>
+                {selectedPersonas.size > 0 ? (
+                  <>
+                    <Typography variant="h5" gutterBottom>
+                      Based on your answers, the best choice for you is:
+                    </Typography>
+                    <Typography 
+                      variant="h4" 
+                      sx={{ 
+                        color: getDaasColor(recommendedDaas),
+                        marginTop: 1,
+                        marginBottom: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2
                       }}
                     >
-                      Provision Now
-                    </Button>
-                  </Typography>
-                  <Typography 
-                    variant="subtitle1" 
-                    sx={{ 
-                      color: 'text.secondary',
-                      borderTop: 1,
-                      borderColor: 'divider',
-                      paddingTop: 2
-                    }}
-                  >
-                    Selected Roles: <Box component="span" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                      {currentPersonas.map(p => p.name).join(', ')}
-                    </Box>
-                  </Typography>
-                  {getSelectedOptionalSoftware().length > 0 && (
+                      {recommendedDaas}
+                      <Button
+                        variant="contained"
+                        onClick={() => handleProvision(recommendedDaas as DaasType)}
+                        sx={{
+                          backgroundColor: getDaasColor(recommendedDaas),
+                          '&:hover': {
+                            backgroundColor: alpha(getDaasColor(recommendedDaas), 0.8)
+                          }
+                        }}
+                      >
+                        Provision Now
+                      </Button>
+                    </Typography>
                     <Typography 
                       variant="subtitle1" 
                       sx={{ 
                         color: 'text.secondary',
-                        paddingTop: 1
+                        borderTop: 1,
+                        borderColor: 'divider',
+                        paddingTop: 2
                       }}
                     >
-                      Selected Optional Software: 
-                      <Box component="span" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                        {getSelectedOptionalSoftware().join(', ')}
+                      Selected Roles: <Box component="span" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                        {currentPersonas.map(p => p.name).join(', ')}
                       </Box>
                     </Typography>
-                  )}
-                </>
-              ) : (
-                <Typography 
-                  variant="h5" 
-                  align="center" 
-                  sx={{ 
-                    py: 4,
-                    color: 'text.secondary'
-                  }}
-                >
-                  Please choose one or more roles that apply
-                </Typography>
-              )}
-            </Box>
-          </CardContent>
-        </Card>
-
-        <Divider sx={{ margin: '2rem 0' }} />
-
-        {/* Persona Grid */}
-        <Typography variant="h6" gutterBottom>
-          Choose all roles that apply:
-        </Typography>
-        <Grid container spacing={2} sx={{ marginBottom: 4 }}>
-          {personas.map(persona => (
-            <Grid item xs={12} sm={6} md={3} key={persona.id}>
-              <Paper
-                elevation={selectedPersonas.has(persona.id) ? 8 : 1}
-                sx={{
-                  p: 2,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s',
-                  backgroundColor: selectedPersonas.has(persona.id)
-                    ? alpha(getDaasColor(recommendedDaas), 0.15)
-                    : 'background.paper',
-                  borderLeft: 6,
-                  borderColor: selectedPersonas.has(persona.id)
-                    ? getDaasColor(recommendedDaas)
-                    : 'transparent',
-                  '&:hover': {
-                    elevation: 4,
-                    backgroundColor: selectedPersonas.has(persona.id)
-                      ? alpha(getDaasColor(recommendedDaas), 0.15)
-                      : 'grey.100'
-                  },
-                  position: 'relative'
-                }}
-                onClick={() => handlePersonaSelect(persona.id)}
-              >
-                {selectedPersonas.has(persona.id) && (
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 8,
-                      right: 8,
-                      width: 20,
-                      height: 20,
-                      borderRadius: '50%',
-                      backgroundColor: getDaasColor(recommendedDaas),
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '0.75rem',
-                      fontWeight: 'bold'
+                    {getSelectedOptionalSoftware().length > 0 && (
+                      <Typography 
+                        variant="subtitle1" 
+                        sx={{ 
+                          color: 'text.secondary',
+                          paddingTop: 1
+                        }}
+                      >
+                        Selected Optional Software: 
+                        <Box component="span" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                          {getSelectedOptionalSoftware().join(', ')}
+                        </Box>
+                      </Typography>
+                    )}
+                  </>
+                ) : (
+                  <Typography 
+                    variant="h5" 
+                    align="center" 
+                    sx={{ 
+                      py: 4,
+                      color: 'text.secondary'
                     }}
                   >
-                    ✓
-                  </Box>
+                    Please choose one or more roles that apply
+                  </Typography>
                 )}
-                <Typography variant="h6" gutterBottom>
-                  {persona.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {persona.description}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+              </Box>
+            </CardContent>
+          </Card>
 
-        {/* Software Selection */}
-        {currentPersonas.length > 0 && (
-          <>
-            <Typography variant="h6" sx={{ marginTop: 4, marginBottom: 2 }}>
-              Available Software for Selected Roles:
-            </Typography>
-            <Grid container spacing={2}>
-              {categories.map(category => (
-                <Grid item xs={12} sm={6} md={4} key={category}>
-                  <Card>
-                    <CardHeader title={category} />
-                    <CardContent>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        {relevantSoftware
-                          .filter(s => s.category === category)
-                          .map(renderSoftwareItem)}
-      </div>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </>
-        )}
-      </Container>
+          <Divider sx={{ margin: '2rem 0' }} />
+
+          {/* Persona Grid */}
+          <Typography variant="h6" gutterBottom>
+            Choose all roles that apply:
+          </Typography>
+          <Grid container spacing={2} sx={{ marginBottom: 4 }}>
+            {personas.map(persona => (
+              <Grid item xs={12} sm={6} md={3} key={persona.id}>
+                <Paper
+                  elevation={selectedPersonas.has(persona.id) ? 8 : 1}
+                  sx={{
+                    p: 2,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
+                    backgroundColor: selectedPersonas.has(persona.id)
+                      ? alpha(getDaasColor(recommendedDaas), 0.15)
+                      : 'background.paper',
+                    borderLeft: 6,
+                    borderColor: selectedPersonas.has(persona.id)
+                      ? getDaasColor(recommendedDaas)
+                      : 'transparent',
+                    '&:hover': {
+                      elevation: 4,
+                      backgroundColor: selectedPersonas.has(persona.id)
+                        ? alpha(getDaasColor(recommendedDaas), 0.15)
+                        : 'grey.100'
+                    },
+                    position: 'relative'
+                  }}
+                  onClick={() => handlePersonaSelect(persona.id)}
+                >
+                  {selectedPersonas.has(persona.id) && (
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        width: 20,
+                        height: 20,
+                        borderRadius: '50%',
+                        backgroundColor: getDaasColor(recommendedDaas),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '0.75rem',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      ✓
+                    </Box>
+                  )}
+                  <Typography variant="h6" gutterBottom>
+                    {persona.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {persona.description}
+                  </Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Software Selection */}
+          {currentPersonas.length > 0 && (
+            <>
+              <Typography variant="h6" sx={{ marginTop: 4, marginBottom: 2 }}>
+                Available Software for Selected Roles:
+              </Typography>
+              <Grid container spacing={2}>
+                {categories.map(category => (
+                  <Grid item xs={12} sm={6} md={4} key={category}>
+                    <Card>
+                      <CardHeader title={category} />
+                      <CardContent>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                          {relevantSoftware
+                            .filter(s => s.category === category)
+                            .map(renderSoftwareItem)}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </>
+          )}
+        </Container>
+      </Box>
     </ThemeProvider>
   );
 };
