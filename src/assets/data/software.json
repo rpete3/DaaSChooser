@@ -108,6 +108,13 @@
       "personas": ["data-scientist"]
     },
     {
+      "id": "go",
+      "name": "go",
+      "category": "Development Tools",
+      "daasType": "linux-se",
+      "personas": ["cloud-engineer"]
+    },
+    {
       "id": "azure-data-studio",
       "name": "Azure Data Studio",
       "category": "Database Tools",

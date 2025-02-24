@@ -92,6 +92,9 @@ const App: React.FC = () => {
   });
   const [recommendedDaas, setRecommendedDaas] = React.useState('Linux Software Engineering Environment');
 
+  // Check if we're in development mode
+  const isDevelopment = import.meta.env.DEV;
+
   type DaasType = 'Linux Software Engineering Environment' | 'Windows VDE' | 'Windows 365 Cloud Desktop';
 
   // Add provisioning URLs for each DaaS type
@@ -186,34 +189,40 @@ const App: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    const selectedItems = [
-      ...software.defaultSoftware.filter(s => softwareState.defaultSoftware.has(s.id)),
-      ...software.optionalSoftware.filter(s => softwareState.optionalSoftware.has(s.id))
-    ];
-    
-    // Check software selections first - they take priority
-    if (selectedItems.some(s => s.daasType === 'windows-vde')) {
-      setRecommendedDaas('Windows VDE');
-    } else if (selectedItems.some(s => s.daasType === 'windows-365')) {
-      setRecommendedDaas('Windows 365 Cloud Desktop');
-    } 
-    // If no Windows software is selected, check persona defaults
-    else {
-      const personaDefaults = currentPersonas.map(p => p.defaultDaas);
-      const daasTypeMap = {
-        'windows-vde': 'Windows VDE',
-        'windows-365': 'Windows 365 Cloud Desktop',
-        'linux-se': 'Linux Software Engineering Environment'
-      } as const;
+    const daasTypeMap = {
+      'windows-vde': 'Windows VDE',
+      'windows-365': 'Windows 365 Cloud Desktop',
+      'linux-se': 'Linux Software Engineering Environment'
+    } as const;
 
-      if (personaDefaults.includes('windows-vde')) {
-        setRecommendedDaas(daasTypeMap['windows-vde']);
-      } else if (personaDefaults.includes('windows-365')) {
-        setRecommendedDaas(daasTypeMap['windows-365']);
-      } else {
-        setRecommendedDaas(daasTypeMap['linux-se']);
-      }
+    type DaasTypeKey = keyof typeof daasTypeMap;
+
+    // First, set the base DaaS type from persona defaults
+    const personaDefaults = currentPersonas.map(p => p.defaultDaas);
+    let recommendedType: DaasTypeKey = 'linux-se';
+
+    if (personaDefaults.includes('windows-vde')) {
+      recommendedType = 'windows-vde';
+    } else if (personaDefaults.includes('windows-365')) {
+      recommendedType = 'windows-365';
     }
+
+    // Then check software selections which can override the persona defaults
+    const selectedDefaultSoftware = software.defaultSoftware
+      .filter(s => softwareState.defaultSoftware.has(s.id));
+    const selectedOptionalSoftware = software.optionalSoftware
+      .filter(s => softwareState.optionalSoftware.has(s.id));
+    const allSelectedSoftware = [...selectedDefaultSoftware, ...selectedOptionalSoftware];
+
+    // Software selections can only upgrade the environment type (vde > 365 > linux)
+    if (allSelectedSoftware.some(s => s.daasType === 'windows-vde')) {
+      recommendedType = 'windows-vde';
+    } else if (recommendedType !== 'windows-vde' && // Only change to 365 if not already VDE
+               allSelectedSoftware.some(s => s.daasType === 'windows-365')) {
+      recommendedType = 'windows-365';
+    }
+
+    setRecommendedDaas(daasTypeMap[recommendedType]);
   }, [softwareState, software, currentPersonas]);
 
   const relevantSoftware = React.useMemo(() => {
@@ -256,9 +265,9 @@ const App: React.FC = () => {
             >
               {software.name}
             </Typography>
-            {!isDefaultSoftware && (
+            {isDevelopment && !isDefaultSoftware && software.daasType !== 'linux-se' && (
               <Typography variant="caption" color="text.secondary" display="block">
-                Selecting this will change environment to {software.daasType === 'windows-365' ? 'Windows 365' : 'Windows VDE'}
+                Selecting this will change environment to {software.daasType === 'windows-365' ? 'Windows 365 Cloud Desktop' : 'Windows VDE'}
               </Typography>
             )}
           </Box>
