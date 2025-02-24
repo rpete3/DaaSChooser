@@ -140,16 +140,40 @@ const App: React.FC = () => {
       } else {
         newSelection.add(personaId);
       }
+
+      // Get the updated list of selected personas
+      const updatedPersonas = Array.from(newSelection)
+        .map(id => personas.find(p => p.id === id))
+        .filter(Boolean) as Persona[];
+      
+      // Update default software based on the new persona selection
+      const defaultPersonaSoftware = software.defaultSoftware
+        .filter(s => updatedPersonas.some(p => s.personas.includes(p.id)))
+        .map(s => s.id);
+      
+      // Clear optional software selections for deselected personas
+      const validOptionalSoftware = new Set(
+        software.optionalSoftware
+          .filter(s => updatedPersonas.some(p => s.personas.includes(p.id)))
+          .map(s => s.id)
+      );
+      
+      dispatch({ type: 'SET_DEFAULT', software: defaultPersonaSoftware });
+      
+      // Only keep optional software selections that are still valid for remaining personas
+      const updatedOptionalSoftware = Array.from(softwareState.optionalSoftware)
+        .filter(id => validOptionalSoftware.has(id));
+      dispatch({ type: 'SET_DEFAULT', software: defaultPersonaSoftware });
+      dispatch({ type: 'RESET' });
+      if (updatedOptionalSoftware.length > 0) {
+        updatedOptionalSoftware.forEach(id => 
+          dispatch({ type: 'TOGGLE_OPTIONAL', softwareId: id })
+        );
+      }
+      
       return newSelection;
     });
-    
-    // Update default software for all selected personas
-    const defaultPersonaSoftware = software.defaultSoftware
-      .filter(s => Array.from(selectedPersonas).some(id => s.personas.includes(id)))
-      .map(s => s.id);
-    
-    dispatch({ type: 'SET_DEFAULT', software: defaultPersonaSoftware });
-  }, [software, selectedPersonas]);
+  }, [software, personas, softwareState.optionalSoftware]);
 
   const handleReset = React.useCallback(() => {
     setSelectedPersonas(new Set());
@@ -176,12 +200,18 @@ const App: React.FC = () => {
     // If no Windows software is selected, check persona defaults
     else {
       const personaDefaults = currentPersonas.map(p => p.defaultDaas);
+      const daasTypeMap = {
+        'windows-vde': 'Windows VDE',
+        'windows-365': 'Windows 365 Cloud Desktop',
+        'linux-se': 'Linux Software Engineering Environment'
+      } as const;
+
       if (personaDefaults.includes('windows-vde')) {
-        setRecommendedDaas('Windows VDE');
+        setRecommendedDaas(daasTypeMap['windows-vde']);
       } else if (personaDefaults.includes('windows-365')) {
-        setRecommendedDaas('Windows 365 Cloud Desktop');
+        setRecommendedDaas(daasTypeMap['windows-365']);
       } else {
-        setRecommendedDaas('Linux Software Engineering Environment');
+        setRecommendedDaas(daasTypeMap['linux-se']);
       }
     }
   }, [softwareState, software, currentPersonas]);

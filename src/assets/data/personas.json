@@ -11,7 +11,7 @@
     "name": ".NET Developer",
     "image": "dotnet-dev.png",
     "description": "Full-stack .NET developer building enterprise applications with C# and ASP.NET Core",
-    "defaultDaas": "linux-se"
+    "defaultDaas": "windows-vde"
   },
   {
     "id": "frontend-dev",
