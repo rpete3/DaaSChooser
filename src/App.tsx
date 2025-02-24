@@ -81,6 +81,18 @@ const App: React.FC = () => {
   });
   const [recommendedDaas, setRecommendedDaas] = React.useState('Linux Software Engineering Environment');
 
+  // Add provisioning URLs for each DaaS type
+  const provisioningUrls = {
+    'Linux Software Engineering Environment': 'https://provision.linux-se.example.com',
+    'Windows VDE': 'https://provision.windows-vde.example.com',
+    'Windows 365 Cloud Desktop': 'https://provision.windows-365.example.com'
+  };
+
+  // Add function to handle provision button click
+  const handleProvision = (daasType: string) => {
+    window.open(provisioningUrls[daasType], '_blank');
+  };
+
   const personas: Persona[] = personasData;
   const software: SoftwareData = softwareData;
   const currentPersonas = Array.from(selectedPersonas).map(id => personas.find(p => p.id === id)).filter(Boolean) as Persona[];
@@ -250,10 +262,25 @@ const App: React.FC = () => {
                     sx={{ 
                       color: getDaasColor(recommendedDaas),
                       marginTop: 1,
-                      marginBottom: 2
+                      marginBottom: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 2
                     }}
                   >
                     {recommendedDaas}
+                    <Button
+                      variant="contained"
+                      onClick={() => handleProvision(recommendedDaas)}
+                      sx={{
+                        backgroundColor: getDaasColor(recommendedDaas),
+                        '&:hover': {
+                          backgroundColor: alpha(getDaasColor(recommendedDaas), 0.8)
+                        }
+                      }}
+                    >
+                      Provision Now
+                    </Button>
                   </Typography>
                   <Typography 
                     variant="subtitle1" 
